@@ -14,8 +14,10 @@ const PostsList = () => {
         <div className={'container'}>
             {
                 posts.map((post)=>{
+                    let user = users.filter((user)=>user.id === post.userId)[0]
                     return <div key={post.id} className={'new'}>
-                        <h2>{post.title}</h2>
+                        <h1>{post.title}</h1>
+                        <h3>{user.username}</h3>
                         <p>{post.body}</p>
                     </div>
                 })
