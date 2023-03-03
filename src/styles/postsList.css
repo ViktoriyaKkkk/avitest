@@ -1,13 +1,16 @@
-.container{
+.container_news{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
 .new{
-    width: 50vw;
+    width: 60vw;
 }
 
-h3{
-    color: grey;
+.container_pagination{
+    width: 60vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }

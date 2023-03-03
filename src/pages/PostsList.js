@@ -1,27 +1,39 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import '../styles/postsList.css'
 import {usePostsEffect} from "../utils/usePostsEffect";
 import {useUsersEffect} from "../utils/useUsersEffect";
+import {Card} from "react-bootstrap";
+import {Pagination} from "../components/Pagination";
 
 const PostsList = () => {
     let posts = usePostsEffect()
     let users = useUsersEffect()
+    let PageSize = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+    const currentPosts = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return posts.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, posts]);
     const usersById = useMemo(()=>{
        return users?.reduce((prev,current)=>{
             return {...prev, [current.id]: current}
         },{})
     }, [users])
     return (
-        <div className={'container'}>
+        <div className={"container_news"}>
             {
-                posts.map((post)=>{
-                    return <div key={post.id} className={'new'}>
-                        <h1>{post.title}</h1>
-                        <h3>{usersById[post.userId]['username']}</h3>
-                        <p>{post.body}</p>
-                    </div>
+                currentPosts.map((post)=>{
+                    return <Card key={post.id} className={'new mb-2'}>
+                        <Card.Body>
+                            <Card.Title>{post.title}</Card.Title>
+                            <Card.Subtitle className={"mb-2 text-muted"}>{usersById[post.userId]['username']}</Card.Subtitle>
+                            <Card.Text>{post.body}</Card.Text>
+                        </Card.Body>
+                    </Card>
                 })
             }
+            <Pagination currentPage={currentPage} pageSize={PageSize} totalCount={posts.length} siblingCount={1} onPageChange={page => setCurrentPage(page)}/>
         </div>
     );
 };
