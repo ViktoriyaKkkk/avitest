@@ -1,23 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {fetchPosts} from "../http/postsAPI";
+import React, {useMemo} from 'react';
 import '../styles/postsList.css'
-import {fetchUsers} from "../http/usersApi";
+import {usePostsEffect} from "../utils/usePostsEffect";
+import {useUsersEffect} from "../utils/useUsersEffect";
 
 const PostsList = () => {
-    const [posts, setPosts] = useState([])
-    const [users, setUsers] = useState([])
-    useEffect(()=>{
-        fetchPosts().then(data => setPosts(data))
-        fetchUsers().then(data => setUsers(data))
-    }, [])
+    let posts = usePostsEffect()
+    let users = useUsersEffect()
+    const usersById = useMemo(()=>{
+       return users?.reduce((prev,current)=>{
+            return {...prev, [current.id]: current}
+        },{})
+    }, [users])
     return (
         <div className={'container'}>
             {
                 posts.map((post)=>{
-                    let user = users.filter((user)=>user.id === post.userId)[0]
                     return <div key={post.id} className={'new'}>
                         <h1>{post.title}</h1>
-                        <h3>{user.username}</h3>
+                        <h3>{usersById[post.userId]['username']}</h3>
                         <p>{post.body}</p>
                     </div>
                 })
