@@ -13,8 +13,8 @@ const PostsList = () => {
     const currentPosts = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
-        return posts.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, posts]);
+        return posts?.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, posts, PageSize]);
     const usersById = useMemo(()=>{
        return users?.reduce((prev,current)=>{
             return {...prev, [current.id]: current}
@@ -33,7 +33,7 @@ const PostsList = () => {
                     </Card>
                 })
             }
-            <Pagination currentPage={currentPage} pageSize={PageSize} totalCount={posts.length} siblingCount={1} onPageChange={page => setCurrentPage(page)}/>
+            <Pagination currentPage={currentPage} pageSize={PageSize} totalCount={posts.length} onPageChange={page => setCurrentPage(page)}/>
         </div>
     );
 };

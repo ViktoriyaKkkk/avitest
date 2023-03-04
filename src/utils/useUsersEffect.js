@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {fetchUsers} from "../http/usersApi";
 
 export const useUsersEffect = () => {
