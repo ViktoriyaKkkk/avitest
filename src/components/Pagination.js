@@ -10,22 +10,18 @@ export const Pagination = ({onPageChange, totalCount, siblingCount = 1, currentP
     }
     let lastPage = Math.ceil(totalCount / pageSize);
     let firstPage = 1
-    const onNext = (lastPage) => {
-        if (lastPage>=currentPage+1){
+    const onNext = () => {
             onPageChange(currentPage + 1);
-        }
     };
 
-    const onPrevious = (firstPage) => {
-        if (firstPage<=currentPage-1) {
+    const onPrevious = () => {
             onPageChange(currentPage - 1);
-        }
     };
 
     return (
         <div className={'container_pagination'}>
             <BootstrapPag>
-                <BootstrapPag.Prev onClick={()=>onPrevious(firstPage)} className={firstPage>currentPage-1 ? "disabled" : "" }/>
+                <BootstrapPag.Prev onClick={onPrevious} className={firstPage>currentPage-1 ? "disabled" : "" }/>
                 {
                     paginationRange?.map((el,i)=>{
                         if (typeof el === 'number') {
@@ -36,7 +32,7 @@ export const Pagination = ({onPageChange, totalCount, siblingCount = 1, currentP
                         }
                     })
                 }
-                <BootstrapPag.Next onClick={()=>onNext(lastPage)} className={lastPage<currentPage+1 ? "disabled" : "" }/>
+                <BootstrapPag.Next onClick={onNext} className={lastPage<currentPage+1 ? "disabled" : "" }/>
             </BootstrapPag>
         </div>
 

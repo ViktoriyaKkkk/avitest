@@ -11,8 +11,8 @@ const PostsList = () => {
     let PageSize = 10;
     const [currentPage, setCurrentPage] = useState(1);
     const currentPosts = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
+        const firstPageIndex = (currentPage - 1) * PageSize; //индекс первого элемента на странице
+        const lastPageIndex = firstPageIndex + PageSize; //индекс последнего элемента(не выводится)
         return posts?.slice(firstPageIndex, lastPageIndex);
     }, [currentPage, posts, PageSize]);
     const usersById = useMemo(()=>{
