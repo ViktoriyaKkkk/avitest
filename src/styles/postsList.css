@@ -8,9 +8,13 @@
     width: 60vw;
 }
 
-.container_pagination{
+.container_pagination, .container_comments{
     width: 60vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.comment{
+    width: 60vw;
 }
