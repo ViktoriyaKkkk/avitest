@@ -8,7 +8,7 @@ export const Pagination = ({onPageChange, totalCount, siblingCount = 1, currentP
     if (currentPage === 0 || paginationRange.length < 2) {
         return null;
     }
-    let lastPage = Math.ceil(totalCount / pageSize);
+    const lastPage = Math.ceil(totalCount / pageSize);
     let firstPage = 1
     const onNext = () => {
             onPageChange(currentPage + 1);

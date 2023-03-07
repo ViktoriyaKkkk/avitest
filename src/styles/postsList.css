@@ -4,6 +4,12 @@
     justify-content: space-around;
 }
 
+.news-update-button{
+    position: absolute;
+    right: 10px;
+    top:10px;
+}
+
 .new{
     width: 60vw;
 }
@@ -17,4 +23,10 @@
 
 .comment{
     width: 60vw;
+}
+
+.back-button{
+    position: absolute;
+    left: 10px;
+    top:10px;
 }

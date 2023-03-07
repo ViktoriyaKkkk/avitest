@@ -2,13 +2,20 @@ import React, {useMemo, useState} from 'react';
 import '../styles/postsList.css'
 import {usePostsEffect} from "../utils/usePostsEffect";
 import {useUsersEffect} from "../utils/useUsersEffect";
-import {Card} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 import {Pagination} from "../components/Pagination";
 import {useNavigate} from "react-router-dom";
 
 const PostsList = () => {
     const navigate = useNavigate()
-    let posts = usePostsEffect()
+
+    const [postsUpdate, setPostsUpdate] = useState(false)
+    setTimeout(function runTimer(){
+        setPostsUpdate(!postsUpdate)
+        console.log(postsUpdate)
+        setTimeout(runTimer, 10000)
+    }, 10000)
+    let posts = usePostsEffect(postsUpdate)
     let users = useUsersEffect()
 
     const PageSize = 10;
@@ -29,6 +36,7 @@ const PostsList = () => {
 
     return (
         <div className={"container_news"}>
+            <Button className={'news-update-button'} variant="success" onClick={()=>setPostsUpdate(!postsUpdate)}>Update posts</Button>
             {
                 currentPosts?.map((post)=>{
                     return <Card key={post.id} className={'new mb-2'} onClick={()=>navigate('/post/' + post.id)}>
