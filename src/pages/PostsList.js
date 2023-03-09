@@ -15,6 +15,7 @@ const PostsList = () => {
     let users = useUsersEffect()
 
     const PageSize = 10;
+    const lastPage = useMemo(()=>Math.ceil(posts.length / PageSize), [posts, PageSize]);
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,7 +45,7 @@ const PostsList = () => {
                     </Card>
                 })
             }
-            <Pagination currentPage={currentPage} pageSize={PageSize} totalCount={posts.length} onPageChange={page => setCurrentPage(page)}/>
+            <Pagination currentPage={currentPage} lastPage={lastPage} pageSize={PageSize} totalCount={posts.length} onPageChange={page => setCurrentPage(page)}/>
         </div>
     );
 };
