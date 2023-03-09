@@ -2,13 +2,23 @@ import {useEffect, useState} from 'react';
 import {fetchPosts} from "../http/postsAPI";
 
 export const usePostsEffect = (postsUpdate) => {
+    const [prevIntervalId, setPrevIntervalIds] = useState(0)
+    clearInterval(prevIntervalId)
     const [posts, setPosts] = useState([])
     useEffect(()=>{
         fetchPosts().then(data => setPosts(data), (error)=>{
             console.log(error)
             return error
         })
+        console.log('loaded')
+        let intervalId = setInterval(()=>{
+            fetchPosts().then(data => setPosts(data), (error)=>{
+                console.log(error)
+                return error
+            })
+            console.log('updated')
+        }, 10000)
+        setPrevIntervalIds(intervalId)
     }, [postsUpdate])
-    // console.log(postsUpdate)
     return posts;
 };

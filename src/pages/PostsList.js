@@ -10,11 +10,7 @@ const PostsList = () => {
     const navigate = useNavigate()
 
     const [postsUpdate, setPostsUpdate] = useState(false)
-    setTimeout(function runTimer(){
-        setPostsUpdate(!postsUpdate)
-        console.log(postsUpdate)
-        setTimeout(runTimer, 10000)
-    }, 10000)
+
     let posts = usePostsEffect(postsUpdate)
     let users = useUsersEffect()
 
