@@ -15,7 +15,7 @@ export const usePostsEffect = (postsUpdate) => {
                 console.log(error)
                 return error
             })
-        }, 10000)
+        }, 60000)
         setPrevIntervalIds(intervalId)
     }, [postsUpdate])
     return posts;
