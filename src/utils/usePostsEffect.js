@@ -10,13 +10,11 @@ export const usePostsEffect = (postsUpdate) => {
             console.log(error)
             return error
         })
-        console.log('loaded')
         let intervalId = setInterval(()=>{
             fetchPosts().then(data => setPosts(data), (error)=>{
                 console.log(error)
                 return error
             })
-            console.log('updated')
         }, 10000)
         setPrevIntervalIds(intervalId)
     }, [postsUpdate])
