@@ -14,22 +14,17 @@ const Post = () => {
     let theNew = useNewEffect(id)
     let users = useUsersEffect()
     let comments = useCommentsEffect(id, commentsUpdate)
-    let usersById = useMemo(()=>{
+    let usernamesById = useMemo(()=>{
         return users?.reduce((prev,current)=>{
-            return {...prev, [current.id]: current}
+            return {...prev, [current.id]: current['username']}
         },{})
     }, [users])
-    let postUsername = useMemo(()=>{
-        if (typeof usersById[theNew.userId] !== 'undefined') {
-            return usersById[theNew.userId]['username']
-        }
-    },[usersById, theNew.userId])
 
     return (
         <div className={'container_news'}>
             <Button className={'back-button'} variant="primary" onClick={()=>navigate('posts')}>Back to posts</Button>
             <Card border="light" className={'new mb-3'}>
-                <Card.Header>{postUsername}</Card.Header>
+                <Card.Header>{usernamesById[theNew.userId]}</Card.Header>
                 <Card.Body>
                     <Card.Title>{theNew.title}</Card.Title>
                     <Card.Text>{theNew.body}</Card.Text>

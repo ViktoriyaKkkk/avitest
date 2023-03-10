@@ -25,9 +25,9 @@ const PostsList = () => {
         return posts?.slice(firstPageIndex, lastPageIndex);
     }, [currentPage, posts]);
 
-    const usersById = useMemo(()=>{
+    const usernamesById = useMemo(()=>{
         return users?.reduce((prev,current)=>{
-            return {...prev, [current.id]: current}
+            return {...prev, [current.id]: current['username']}
         },{})
     }, [users])
 
@@ -39,7 +39,7 @@ const PostsList = () => {
                     return <Card key={post.id} className={'new mb-2'} onClick={()=>navigate('/post/' + post.id)}>
                         <Card.Body>
                             <Card.Title>{post.title}</Card.Title>
-                            <Card.Subtitle className={"mb-2 text-muted"}>{usersById[post.userId]['username']}</Card.Subtitle>
+                            <Card.Subtitle className={"mb-2 text-muted"}>{usernamesById[post.userId]}</Card.Subtitle>
                             <Card.Text>{post.body}</Card.Text>
                         </Card.Body>
                     </Card>
