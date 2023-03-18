@@ -5,13 +5,29 @@ import {useUsersEffect} from "../utils/useUsersEffect";
 import {Button, Card} from "react-bootstrap";
 import {Pagination} from "../components/Pagination";
 import {useNavigate} from "react-router-dom";
+import useInterval from "../utils/useInterval";
+import usePosts from "../utils/usePosts";
 
 const PostsList = () => {
     const navigate = useNavigate()
 
     const [postsUpdate, setPostsUpdate] = useState(false)
 
-    let posts = usePostsEffect(postsUpdate)
+    let [posts, error] = usePostsEffect(postsUpdate)
+    let [postsInterval, errorInterval] = useInterval(usePosts(postsUpdate), 10000)
+
+    useMemo(()=>{
+        if (typeof postsInterval !== 'undefined' && postsInterval.length !== 0) {
+            posts = postsInterval
+            console.log('updated')
+        } else if (error !== null) {
+            error = errorInterval
+        }
+    }, [postsInterval, errorInterval])
+
+    if ( error !== null) {
+       console.log(error)
+    }
     let users = useUsersEffect()
 
     const PageSize = 10;
