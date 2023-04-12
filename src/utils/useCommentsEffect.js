@@ -1,13 +1,16 @@
 import {useEffect, useState} from 'react';
 import {fetchComments} from "../http/commentsAPI";
 
-export const useCommentsEffect = (id, commentsUpdate) => {
+export const useCommentsEffect = (id) => {
     const [comments, setComments] = useState({})
-    useEffect(()=>{
+    const [error, setError] = useState(null)
+    const reload = ()=>{
         fetchComments(id).then(data => setComments(data), (error)=>{
-            console.log(error)
-            return error
+            setError(error)
+
         })
-    }, [id, commentsUpdate])
-    return comments;
+        console.log('comments')
+    }
+    useEffect(reload, [id])
+    return [comments, error, reload];
 };

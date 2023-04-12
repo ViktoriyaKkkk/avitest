@@ -1,6 +1,5 @@
 import React, {useMemo, useState} from 'react';
 import '../styles/postsList.css'
-import {usePostsEffect} from "../utils/usePostsEffect";
 import {useUsersEffect} from "../utils/useUsersEffect";
 import {Button, Card} from "react-bootstrap";
 import {Pagination} from "../components/Pagination";
@@ -11,24 +10,17 @@ import usePosts from "../utils/usePosts";
 const PostsList = () => {
     const navigate = useNavigate()
 
-    const [postsUpdate, setPostsUpdate] = useState(false)
-
-    let [posts, error] = usePostsEffect(postsUpdate)
-    let [postsInterval, errorInterval] = useInterval(usePosts(postsUpdate), 10000)
-
-    useMemo(()=>{
-        if (typeof postsInterval !== 'undefined' && postsInterval.length !== 0) {
-            posts = postsInterval
-            console.log('updated')
-        } else if (error !== null) {
-            error = errorInterval
-        }
-    }, [postsInterval, errorInterval])
-
-    if ( error !== null) {
-       console.log(error)
+    const [posts, errorPosts, reloadPosts] = usePosts()
+    if ( errorPosts !== null) {
+        console.log(errorPosts)
     }
-    let users = useUsersEffect()
+    useInterval(reloadPosts, 60000)
+
+
+    const [users, errorUsers] = useUsersEffect()
+    if ( errorUsers !== null) {
+        console.log(errorUsers)
+    }
 
     const PageSize = 10;
     const lastPage = useMemo(()=>Math.ceil(posts.length / PageSize), [posts, PageSize]);
@@ -49,7 +41,7 @@ const PostsList = () => {
 
     return (
         <div className={"container_news"}>
-            <Button className={'news-update-button'} variant="success" onClick={()=>setPostsUpdate(!postsUpdate)}>Update posts</Button>
+            <Button className={'news-update-button'} variant="success" onClick={reloadPosts}>Update posts</Button>
             {
                 currentPosts?.map((post)=>{
                     return <Card key={post.id} className={'new mb-2'} onClick={()=>navigate('/post/' + post.id)}>

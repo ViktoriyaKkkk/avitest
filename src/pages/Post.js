@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import '../styles/postsList.css'
 import {useNavigate, useParams} from "react-router-dom";
 import {useNewEffect} from "../utils/useNewEffect";
@@ -7,14 +7,24 @@ import {Button, Card} from "react-bootstrap";
 import {useCommentsEffect} from "../utils/useCommentsEffect";
 
 const Post = () => {
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const {id} = useParams()
-    const [commentsUpdate, setCommentsUpdate] = useState(false)
-    let theNew = useNewEffect(id)
-    let users = useUsersEffect()
-    let comments = useCommentsEffect(id, commentsUpdate)
-    let usernamesById = useMemo(()=>{
+    const [theNew, errorTheNew] = useNewEffect(id)
+    if ( errorTheNew !== null) {
+        console.log(errorTheNew)
+    }
+
+    const [users, errorUsers] = useUsersEffect()
+    if ( errorUsers !== null) {
+        console.log(errorUsers)
+    }
+
+    const [comments, errorComments, reload] = useCommentsEffect(id)
+    if ( errorComments !== null) {
+        console.log(errorComments)
+    }
+    const usernamesById = useMemo(()=>{
         return users?.reduce((prev,current)=>{
             return {...prev, [current.id]: current['username']}
         },{})
@@ -31,7 +41,7 @@ const Post = () => {
                 </Card.Body>
             </Card>
             <div className={'container_comments'}>
-                <Button className={'mb-3'} variant="success" onClick={()=>setCommentsUpdate(!comments)}>Update comments</Button>
+                <Button className={'mb-3'} variant="success" onClick={reload}>Update comments</Button>
                 { Array.isArray(comments) &&
                     comments.map((comment)=>{
                         return <Card key={comment.id} className={'comment mb-2'}>

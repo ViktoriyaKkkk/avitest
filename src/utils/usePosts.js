@@ -1,16 +1,17 @@
 import {useEffect, useState} from 'react';
 import {fetchPosts} from "../http/postsAPI";
 
-const usePosts = (postsUpdate) => {
+const usePosts = () => {
     const [error, setError] = useState(null)
     const [posts, setPosts] = useState([])
-    useEffect(()=>{
+    const reload = () => {
         fetchPosts().then(data => setPosts(data), (error)=>{
-            setError(error)
+            setError(error.message)
         })
-
-    }, [postsUpdate])
-    return ()=>{return [posts, error]}
+        console.log('reloaded')
+    }
+    useEffect(reload, [])
+    return [posts, error,reload]
 };
 
 export default usePosts;

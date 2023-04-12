@@ -3,11 +3,12 @@ import {fetchTheNew} from "../http/theNewAPI";
 
 export const useNewEffect = (id) => {
     const [theNew, setTheNew] = useState({})
-    useEffect(()=>{
+    const [error, setError] = useState(null)
+    const load = ()=>{
         fetchTheNew(id).then(data => setTheNew(data), (error)=>{
-            console.log(error)
-            return error
+            setError(error)
         })
-    }, [id])
-    return theNew;
+    }
+    useEffect(load, [id])
+    return [theNew, error];
 };
