@@ -9,7 +9,6 @@ export const useCommentsEffect = (id) => {
             setError(error)
 
         })
-        console.log('comments')
     }
     useEffect(reload, [id])
     return [comments, error, reload];

@@ -8,7 +8,6 @@ const usePosts = () => {
         fetchPosts().then(data => setPosts(data), (error)=>{
             setError(error.message)
         })
-        console.log('reloaded')
     }
     useEffect(reload, [])
     return [posts, error,reload]
